@@ -23,7 +23,10 @@ fun DrawScope.drawSomethingStrange() {
 
         drawCircle(
             color = Color.Blue,
-            center = Offset(this.center.x + x, this.center.y + y),
+            center = Offset(
+                this.center.x + x,
+                this.center.y + y
+            ),
             style = Stroke(width = 1f)
         )
     }
@@ -39,7 +42,10 @@ fun DrawScope.drawCircles() {
 
         drawOval(
             color = Color(0xFF7400A8),
-            topLeft = Offset(this.center.x + x, this.center.y + y),
+            topLeft = Offset(
+                this.center.x + x,
+                this.center.y + y
+            ),
             style = Stroke(width = 1f)
         )
     }

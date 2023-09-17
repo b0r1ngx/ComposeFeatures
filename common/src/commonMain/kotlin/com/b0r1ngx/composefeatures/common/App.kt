@@ -35,6 +35,7 @@ fun App() {
             Simulate()
 //            Canvas(modifier = Modifier.fillMaxSize()) {
 //                drawSnowflake(color = Color.Blue)
+//                drawCircles()
 //            }
         }
     }
