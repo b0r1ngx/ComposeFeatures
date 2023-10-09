@@ -6,8 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.b0r1ngx.composefeatures.common.data.fundamentals.MovableType
+import com.b0r1ngx.composefeatures.common.data.fundamentals.Move
 import org.openrndr.math.Vector2
-import org.openrndr.math.mod
 import kotlin.math.atan2
 
 class Simulation {
@@ -21,10 +22,26 @@ class Simulation {
         acceleration = 9.81,
         angle = 90.0
     )
+
+    val line = StaticObject(
+        position = Vector2(600.0, 700.0),
+        acceleration = 0.0,
+        angle = 90.0
+    )
+
     var simulationObjects = mutableStateListOf<SimulationObject>()
+
 
     fun startSimulation() {
         simulationObjects.add(logo)
+        simulationObjects.add(line)
+    }
+
+    fun move(to: Move) {
+        simulationObjects[0].move(to)
+
+//        for (obj in simulationObjects) {
+//        }
     }
 
     fun update(time: Long) {
@@ -39,14 +56,25 @@ class Simulation {
 }
 
 class Logo(
+    type: MovableType = MovableType.Dynamic,
     position: Vector2 = Vector2.ZERO,
     speed: Double = 0.0,
     acceleration: Double = 0.0,
     angle: Double = 0.0,
     override var size: Double = 128.0
-) : SimulationObject(position, speed, acceleration, angle)
+) : SimulationObject(type, position, speed, acceleration, angle)
+
+class StaticObject(
+    type: MovableType = MovableType.Static,
+    position: Vector2 = Vector2.ZERO,
+    speed: Double = 0.0,
+    acceleration: Double = 0.0,
+    angle: Double = 0.0,
+    override var size: Double = 128.0
+) : SimulationObject(type, position, speed, acceleration, angle)
 
 sealed class SimulationObject(
+    type: MovableType = MovableType.Static,
     position: Vector2 = Vector2.ZERO,
     speed: Double = 0.0,
     acceleration: Double = 9.81,
@@ -64,12 +92,17 @@ sealed class SimulationObject(
         }
     abstract val size: Double // Diameter
 
+    val MOVE_TO_FIFTEEN = Vector2(15.0, 0.0)
+
     private fun newMovementVector() = Vector2.UNIT_X * speed
 
     fun update(delta: Float, world: Simulation) {
         if (overlapsWith(world)) speed *= -1
         speed += acceleration
         val velocity = movementVector * delta.toDouble()
+        println("angle: $angle")
+        println("movementVector: $movementVector")
+        println("velocity: $velocity")
         position += velocity
 //        position = position.mod( // allow object transition at end of screen
 //            Vector2(world.width.value.toDouble(), world.height.value.toDouble())
@@ -86,6 +119,34 @@ sealed class SimulationObject(
 
     private fun overlapsWithCircle(world: Simulation) =
         position.x * position.x + position.y * position.y == 100.0
+
+    fun move(to: Move) {
+        when (to) {
+            Move.LEFT -> {
+                movementVector -= MOVE_TO_FIFTEEN
+            }
+
+            Move.RIGHT -> {
+                movementVector += MOVE_TO_FIFTEEN
+            }
+
+            else -> {}
+        }
+    }
+
+    fun moveByChangePosition(to: Move) {
+        when (to) {
+            Move.LEFT -> {
+                position -= MOVE_TO_FIFTEEN
+            }
+
+            Move.RIGHT -> {
+                position += MOVE_TO_FIFTEEN
+            }
+
+            else -> {}
+        }
+    }
 
 }
 
