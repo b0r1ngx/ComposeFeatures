@@ -10,7 +10,10 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         state = rememberWindowState(
-            size = DpSize(1280.dp, 720.dp)
+            size = DpSize(
+                1280.dp,
+                720.dp
+            )
         ),
 //        onKeyEvent =
     ) {
