@@ -8,6 +8,7 @@ import com.b0r1ngx.composefeatures.common.App
 
 fun main() = application {
     Window(
+        title = "Compose Features",
         onCloseRequest = ::exitApplication,
         state = rememberWindowState(
             size = DpSize(
