@@ -4,40 +4,49 @@ import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.*
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.b0r1ngx.composefeatures.common.data.*
-import com.b0r1ngx.composefeatures.common.game.*
+import com.b0r1ngx.composefeatures.common.data.ChaoticBall
+import com.b0r1ngx.composefeatures.common.data.TowerWrapping
+import com.b0r1ngx.composefeatures.common.game.Logo
+import com.b0r1ngx.composefeatures.common.game.Simulation
+import com.b0r1ngx.composefeatures.common.game.xOffset
+import com.b0r1ngx.composefeatures.common.game.yOffset
 
 @Composable
 fun App() {
     MaterialTheme {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-//            contentAlignment = Alignment.Center
-        ) {
-            Simulate()
+        TowerWrapping()
+//        Box(
+//            modifier = Modifier.fillMaxSize(),
+////            contentAlignment = Alignment.Center
+//        ) {
+////            Simulate()
 //            Canvas(modifier = Modifier.fillMaxSize()) {
-//                drawSnowflake(color = Color.Blue)
-//                drawCircles()
+////                drawSnowflake(color = Color.Blue)
+////                drawCircles()
+//                axisTowers()
 //            }
-        }
+//        }
     }
 }
 
