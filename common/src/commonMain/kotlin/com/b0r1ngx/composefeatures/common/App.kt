@@ -4,6 +4,8 @@ import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
@@ -13,6 +15,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -21,6 +24,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.*
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
@@ -71,10 +79,29 @@ fun DrawLogo(logo: Logo) {
     )
 }
 
+//@Composable
+//fun DrawLine(line: StaticObject) {
+//    val color = Color.Black
+//    Box(
+//        modifier = Modifier
+//            .offset(line.xOffset, line.yOffset)
+//            .size(line.size.dp)
+//            .rotate(line.angle.toFloat())
+//            .clip(RectangleShape)
+//            .drawBehind {
+////                drawRect(color)
+//            }
+//    )
+//}
+
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Simulate() {
     val simulation = remember { Simulation() }
     val density = LocalDensity.current
+
+    val interactionSource = remember { MutableInteractionSource() }
+    val pressed by interactionSource.collectIsPressedAsState()
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -87,22 +114,30 @@ fun Simulate() {
             simulation.width = it.width.toDp()
             simulation.height = it.height.toDp()
         }
-    }
-//        .drawBehind {
-//            simulation.simulationObjects.forEach {
-//                when (it) {
-//                    is Logo -> drawLogo(it)
-//                }
-//            }
-//        }
-    ) {
+    }.onPreviewKeyEvent {
+        if (it.type == KeyEventType.KeyDown) {
+            when (it.key) {
+                Key.A -> {
+//                    simulation.move(Move.LEFT)
+                    true
+                }
 
+                Key.D -> {
+//                    simulation.move(Move.RIGHT)
+                    true
+                }
+
+                else -> false
+            }
+        } else false
+    }) {
         Button(onClick = { simulation.startSimulation() }) {
             Text("Start")
         }
         simulation.simulationObjects.forEach {
             when (it) {
                 is Logo -> DrawLogo(it)
+//                is StaticObject -> DrawLine(it)
             }
         }
     }

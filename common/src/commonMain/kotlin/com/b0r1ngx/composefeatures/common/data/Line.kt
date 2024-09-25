@@ -8,7 +8,7 @@ class Line(
     val a: Vector2,
     val b: Vector2,
     val thickness: Double = 1.0
-    ) {
+) {
 
     fun draw() {
         val tangent = b - a
