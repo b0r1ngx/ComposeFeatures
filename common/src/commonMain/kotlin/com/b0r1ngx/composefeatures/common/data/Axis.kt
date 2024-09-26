@@ -28,11 +28,11 @@ fun TowerWrapping() {
 
     Column {
         Row {
-            Text("Base angle:", )
+            Text("Base angle:")
             Slider(value = baseAngle, onValueChange = { baseAngle = it }, valueRange = 0f..180f)
         }
         Row {
-            Text("Next figure size difference: ")
+            Text("Next figure size difference:")
             Slider(
                 value = nextFigureSizeDifference.toFloat(),
                 onValueChange = { nextFigureSizeDifference = it.toInt() },
@@ -87,24 +87,6 @@ fun DrawScope.drawDecreasingSizeRotatingRectangle(
     rotate(degrees = angle, pivot = Offset(centerX, centerY)) {
         drawRect(
             color = createColor(index),
-            style = Stroke(width = 2f),
-            topLeft = Offset(
-                centerX - rectWidth / 2,
-                centerY - rectHeight / 2
-            ),
-            size = Size(rectWidth, rectHeight)
-        )
-    }
-}
-
-fun DrawScope.drawRotatingRectangle(centerX: Float, centerY: Float, angle: Float, index: Int) {
-    // Each rectangle will be smaller than the previous
-    val rectWidth = 900f
-    val rectHeight = 900f
-
-    rotate(degrees = angle, pivot = Offset(centerX, centerY)) {
-        drawRect(
-            color = if (index % 2 == 0) Color.Black else Color.Gray,
             style = Stroke(width = 2f),
             topLeft = Offset(
                 centerX - rectWidth / 2,
