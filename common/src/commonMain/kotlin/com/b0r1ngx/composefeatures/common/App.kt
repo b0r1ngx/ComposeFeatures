@@ -34,6 +34,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.b0r1ngx.composefeatures.common.data.AxisTowers
 import com.b0r1ngx.composefeatures.common.data.ChaoticBall
 import com.b0r1ngx.composefeatures.common.data.TowerWrapping
 import com.b0r1ngx.composefeatures.common.data.fundamentals.Move
@@ -42,7 +43,8 @@ import com.b0r1ngx.composefeatures.common.game.*
 @Composable
 fun App() {
     MaterialTheme {
-        TowerWrapping()
+        AxisTowers()
+//        TowerWrapping()
 //        Box(
 //            modifier = Modifier.fillMaxSize(),
 ////            contentAlignment = Alignment.Center
