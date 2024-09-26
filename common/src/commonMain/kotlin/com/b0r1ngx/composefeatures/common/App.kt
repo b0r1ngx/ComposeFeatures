@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.drawscope.*
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -35,10 +36,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.b0r1ngx.composefeatures.common.data.ChaoticBall
 import com.b0r1ngx.composefeatures.common.data.TowerWrapping
-import com.b0r1ngx.composefeatures.common.game.Logo
-import com.b0r1ngx.composefeatures.common.game.Simulation
-import com.b0r1ngx.composefeatures.common.game.xOffset
-import com.b0r1ngx.composefeatures.common.game.yOffset
+import com.b0r1ngx.composefeatures.common.data.fundamentals.Move
+import com.b0r1ngx.composefeatures.common.game.*
 
 @Composable
 fun App() {
@@ -79,20 +78,20 @@ fun DrawLogo(logo: Logo) {
     )
 }
 
-//@Composable
-//fun DrawLine(line: StaticObject) {
-//    val color = Color.Black
-//    Box(
-//        modifier = Modifier
-//            .offset(line.xOffset, line.yOffset)
-//            .size(line.size.dp)
-//            .rotate(line.angle.toFloat())
-//            .clip(RectangleShape)
-//            .drawBehind {
-////                drawRect(color)
-//            }
-//    )
-//}
+@Composable
+fun DrawLine(line: StaticObject) {
+    val color = Color.Black
+    Box(
+        modifier = Modifier
+            .offset(line.xOffset, line.yOffset)
+            .size(line.size.dp)
+            .rotate(line.angle.toFloat())
+            .clip(RectangleShape)
+            .drawBehind {
+                drawRect(color)
+            }
+    )
+}
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -118,12 +117,12 @@ fun Simulate() {
         if (it.type == KeyEventType.KeyDown) {
             when (it.key) {
                 Key.A -> {
-//                    simulation.move(Move.LEFT)
+                    simulation.move(Move.LEFT)
                     true
                 }
 
                 Key.D -> {
-//                    simulation.move(Move.RIGHT)
+                    simulation.move(Move.RIGHT)
                     true
                 }
 
@@ -137,7 +136,7 @@ fun Simulate() {
         simulation.simulationObjects.forEach {
             when (it) {
                 is Logo -> DrawLogo(it)
-//                is StaticObject -> DrawLine(it)
+                is StaticObject -> DrawLine(it)
             }
         }
     }
