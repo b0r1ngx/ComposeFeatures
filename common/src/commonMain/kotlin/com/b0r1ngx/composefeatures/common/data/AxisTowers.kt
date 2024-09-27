@@ -18,30 +18,30 @@ val SkyColor = Color(0xFF76D7EA)
 val LeftTowerColor = Color.Black
 val RightTowerColor = Color(0xFFfdfff5)
 
+const val SideSize = 750f
+const val StartAngle = 1.125f
+const val TowersFloors = 40
+const val StartAlpha = 0.1f
+
 
 @Composable
 fun AxisTowers() {
-    val baseAngle = 1.125f
-
     Canvas(modifier = Modifier.fillMaxSize().background(color = SkyColor).padding(16.dp)) {
         val canvasWidth = size.width
         val canvasHeight = size.height
 
-        val numberOfRectangles = 40 // floors
+        val leftTowerCenterX = canvasWidth * 1.5f / 4
+        val leftTowerCenterY = canvasHeight * 1.15f / 4
+        println(leftTowerCenterX to leftTowerCenterY)
 
-        val leftTowerCenterX = canvasWidth / 4
-        val leftTowerCenterY = canvasHeight / 4
+        val rightTowerCenterX = canvasWidth * 2.6f / 4
+        val rightTowerCenterY = canvasHeight * 2.85f / 4
+        println(rightTowerCenterX to rightTowerCenterY)
 
-        val rightTowerCenterX = 3 * canvasWidth / 4
-        val rightTowerCenterY = 3 * canvasHeight / 4
-
-        for (i in 0 until numberOfRectangles) {
-            // Angle gets progressively larger
-            val angle = baseAngle * i
-            // Call draw function with calculated angle
-//            drawRotatingRectangle(centerX, centerY, angle, i)
-            drawRotatingRectangle(leftTowerCenterX, leftTowerCenterY, angle, LeftTowerColor)
-            drawRotatingRectangle(rightTowerCenterX, rightTowerCenterY, angle, RightTowerColor, false)
+        for (floor in 0 until TowersFloors) {
+            val angle = StartAngle * floor
+            drawRotatingRectangle(leftTowerCenterX, leftTowerCenterY, angle, floor, LeftTowerColor, true)
+            drawRotatingRectangle(rightTowerCenterX, rightTowerCenterY, angle, floor, RightTowerColor, false)
         }
     }
 }
@@ -50,23 +50,21 @@ fun DrawScope.drawRotatingRectangle(
     centerX: Float,
     centerY: Float,
     angle: Float,
+    index: Int,
     color: Color,
-    isRotationClockwise: Boolean = true
+    isRotationClockwise: Boolean = true,
 ) {
-    val rectWidth = 900f
-    val rectHeight = 900f
+    val (rectWidth, rectHeight) = SideSize to SideSize
+    val degrees = if (isRotationClockwise) angle else -angle
+    val computedAlpha = (1 - StartAlpha) * (index + 1) / TowersFloors
 
-    val degree = if (isRotationClockwise) angle else -angle
-
-    rotate(degrees = degree, pivot = Offset(centerX, centerY)) {
+    rotate(degrees = degrees, pivot = Offset(centerX, centerY)) {
         drawRect(
             color = color,
             style = Stroke(width = 2f),
-            topLeft = Offset(
-                centerX - rectWidth / 2,
-                centerY - rectHeight / 2
-            ),
-            size = Size(rectWidth, rectHeight)
+            topLeft = Offset(centerX - rectWidth / 2, centerY - rectHeight / 2),
+            size = Size(rectWidth, rectHeight),
+            alpha = StartAlpha + computedAlpha,
         )
     }
 }
